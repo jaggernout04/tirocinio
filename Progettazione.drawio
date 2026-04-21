@@ -1,0 +1,91 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Pagina-1" id="eQgqlZt-wVi4vic5Fu3_">
+    <mxGraphModel dx="1414" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-8" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="404" y="40" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-9" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-10">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="304" y="40" as="sourcePoint" />
+            <mxPoint x="154" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-7" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="QgjH9BlA33H61pyJ2Uvl-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Installazione Unity &amp;gt;2020" vertex="1">
+          <mxGeometry height="60" width="120" x="444" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-5" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="394" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-18" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="504" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Installazione plugin Unity bmlSUP" vertex="1">
+          <mxGeometry height="60" width="120" x="444" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-14" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="394" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Download tool .npz to JSON tools from repo" vertex="1">
+          <mxGeometry height="60" width="120" x="334" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-13" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="214" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-21" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="92" y="300" />
+            </Array>
+            <mxPoint x="84" y="360" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Download AMASS Dataset" vertex="1">
+          <mxGeometry height="60" width="120" x="154" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-11" parent="1" style="ellipse;whiteSpace=wrap;html=1;" value="SETUP" vertex="1">
+          <mxGeometry height="80" width="110" x="304" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-17" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-12" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="Conversione&lt;div&gt;AMASS Dataset in JSON&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="124" x="244" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-20" edge="1" parent="1" source="QgjH9BlA33H61pyJ2Uvl-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="QgjH9BlA33H61pyJ2Uvl-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-16" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Caricamento animazioni su UNITY" vertex="1">
+          <mxGeometry height="60" width="120" x="246" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-19" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="Verifica&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;funzionamento&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="124" x="244" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="QgjH9BlA33H61pyJ2Uvl-22" parent="1" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" value="Ricavare frasi descrittive&lt;div&gt;animazioni&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="124" x="30" y="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
