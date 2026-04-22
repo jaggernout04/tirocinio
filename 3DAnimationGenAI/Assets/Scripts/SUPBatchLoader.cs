@@ -1,75 +1,100 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEditor; 
-using FileLoaders; 
+using FileLoaders;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class SUPBatchLoader : MonoBehaviour
 {
-    [Header("Settings")]
-    public TextAsset listFile;
-    public AnimationListAsset animationListAsset;
+    [Header("External Source")]
+    [Tooltip("The folder on your PC where the JSONs are stored.")]
+    [SerializeField] string externalFolderPath = @"C:\AnimationsExternal\";
+    
+    [Header("Unity Configuration")]
+    [Tooltip("The .txt file listing the animation names.")]
+    [SerializeField] TextAsset listFile;
+    
+    [Tooltip("The ScriptableObject that will hold the references.")]
+    [SerializeField] AnimationListAsset animationListAsset;
+    
+    [Tooltip("Directory within the Unity project to store imported JSONs. Will be created if it doesn't exist.")]
+    [SerializeField] string internalPath = "Assets/ImportedAnimations";
 
-    [ContextMenu("Populate Animation List")]
-    public void PopulateList()
+    [ContextMenu("Execute Full Import and Load")]
+    [SerializeField] void ExecuteBatchLoad()
     {
+#if UNITY_EDITOR
         if (listFile == null || animationListAsset == null)
         {
-            Debug.LogError("Assign the TXT list and the Target Asset first!");
+            Debug.LogError("Please assign the List File and the Target Asset.");
             return;
         }
-        
-        string[] lines = listFile.text.Split(new[] { "\r\n", "\r", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
-        
-        // Reset current animations
+
+        // Check internal path and create if it doesn't exist
+        if (!Directory.Exists(internalPath))
+        {
+            Directory.CreateDirectory(internalPath);
+        }
+
+
         animationListAsset.animationAssetGroups = new List<AnimationAssetGroup>();
 
+        // Read and process the list file
+        string[] lines = listFile.text.Split(new[] { "\r\n", "\r", "\n" }, System.StringSplitOptions.RemoveEmptyEntries);
+
+        // Check every entry
         foreach (string line in lines)
         {
-            // Split the line by spaces (for paired animations on one line)
-            string[] fileNames = line.Trim().Split(' ');
-            
-            AnimationAssetGroup newGroup = new AnimationAssetGroup();
-            newGroup.assets = new List<TextAsset>();
+            string[] names = line.Trim().Split(' ');
+            AnimationAssetGroup group = new AnimationAssetGroup { assets = new List<TextAsset>() };
 
-            foreach (string name in fileNames)
+            foreach (string rawName in names)
             {
-                string cleanName = Path.GetFileNameWithoutExtension(name);
-                TextAsset foundAsset = FindTextAssetByName(cleanName);
+                // Clean the name
+                string fileName = rawName.EndsWith(".json") ? rawName : rawName + ".json";
+                
+                // Paths
+                string sourcePath = Path.Combine(externalFolderPath, fileName);
+                string destinationPath = Path.Combine(internalPath, fileName);
 
-                if (foundAsset != null)
+                if (File.Exists(sourcePath))
                 {
-                    newGroup.assets.Add(foundAsset);
+                    // Copy to project if it's not already there or to update it
+                    File.Copy(sourcePath, destinationPath, true);
+                    
+                    // Refresh the AssetDatabase for this specific file
+                    AssetDatabase.ImportAsset(destinationPath);
+                    
+                    // Load as TextAsset
+                    TextAsset asset = AssetDatabase.LoadAssetAtPath<TextAsset>(destinationPath);
+                    
+                    if (asset != null)
+                    {
+                        group.assets.Add(asset);
+                    }
                 }
                 else
                 {
-                    Debug.LogWarning($"Could not find JSON asset named: {cleanName}");
+                    Debug.LogWarning($"File missing in external folder: {sourcePath}");
                 }
             }
 
-            if (newGroup.assets.Count > 0)
+            if (group.assets.Count > 0)
             {
-                animationListAsset.animationAssetGroups.Add(newGroup);
+                animationListAsset.animationAssetGroups.Add(group);
             }
         }
-        
+
         EditorUtility.SetDirty(animationListAsset);
         AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
         
-        Debug.Log($"Finished! Loaded {animationListAsset.animationAssetGroups.Count} groups.");
-    }
-
-    private TextAsset FindTextAssetByName(string name)
-    {
-        string[] guids = AssetDatabase.FindAssets($"{name} t:TextAsset");
-        
-        foreach (string guid in guids)
-        {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            if (Path.GetFileNameWithoutExtension(path) == name)
-            {
-                return AssetDatabase.LoadAssetAtPath<TextAsset>(path);
-            }
-        }
-        return null;
+        Debug.Log($"Batch Load Complete! {animationListAsset.animationAssetGroups.Count} groups imported and linked.");
+        #else
+            Debug.LogWarning("Batch Loading via AssetDatabase can only be done in the Unity Editor.");
+        #endif
     }
 }
