@@ -701,7 +701,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1394645764}
   - component: {fileID: 1394645763}
-  - component: {fileID: 1394645762}
   m_Layer: 0
   m_Name: SUP_BatchLoader
   m_TagString: Untagged
@@ -709,21 +708,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1394645762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1394645761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c0da017ae45509bbcef9bc2e901235, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  externalFolderPath: /home/jaggernout04/Documents/repos/tirocinio/JsonConversionScripts/BatchOutputFolder
-  manifestFileName: animations.txt
-  animationListAsset_TXT: {fileID: 0}
 --- !u!114 &1394645763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -736,8 +720,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db406633cf7e52975b0c3a8528636757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileLoader: {fileID: 1394645762}
   smplModels: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
+  playbackSettings: {fileID: 11400000, guid: 4b81560bdf21baf45b8d2acad6f33a35, type: 2}
+  externalFolderPath: /home/jaggernout04/Documents/repos/tirocinio/JsonConversionScripts/BatchOutputFolder
+  manifestFileName: animations.txt
+  animationListAsset_TXT: {fileID: 11400000, guid: cb6711dab4d284b78b189d749f1135b0, type: 2}
 --- !u!4 &1394645764
 Transform:
   m_ObjectHideFlags: 0

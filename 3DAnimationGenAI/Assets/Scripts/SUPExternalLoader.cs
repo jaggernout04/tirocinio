@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using FileLoaders;
 
-public class SUPExternalLoader : MonoBehaviour
+public class SUPExternalLoader
 {
     [Header("Configuration")]
     [Tooltip("The folder on your PC where the JSONs are stored.")]
@@ -12,6 +11,13 @@ public class SUPExternalLoader : MonoBehaviour
     public string manifestFileName = "animations.txt";
     public AnimationListAsset_TXT animationListAsset_TXT;
 
+    // Custructor to use in case of non-MonoBehaviour usage
+    public SUPExternalLoader(string folderPath, string manifestName, AnimationListAsset_TXT asset) {
+        externalFolderPath = folderPath;
+        manifestFileName = manifestName;
+        animationListAsset_TXT = asset;
+        
+    }
 
     [ContextMenu("Load Animations")]
     public void LoadExternalAnimations()
@@ -26,14 +32,6 @@ public class SUPExternalLoader : MonoBehaviour
 
         // Read the .txt file
         string[] lines = File.ReadAllLines(txtPath);
-        if(animationListAsset_TXT == null)
-        {
-            animationListAsset_TXT = ScriptableObject.CreateInstance<AnimationListAsset_TXT>();
-        }
-        if(animationListAsset_TXT.animationAssetGroups == null)
-        {
-            animationListAsset_TXT.animationAssetGroups = new List<AnimationAssetGroup_TXT>();
-        }
         animationListAsset_TXT.animationAssetGroups.Clear();
 
         foreach (string line in lines)
@@ -67,4 +65,6 @@ public class SUPExternalLoader : MonoBehaviour
 
         Debug.Log($"Successfully loaded {animationListAsset_TXT.animationAssetGroups.Count} groups from external storage.");
     }
+
+    
 }
