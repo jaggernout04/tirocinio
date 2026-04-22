@@ -26,6 +26,14 @@ public class SUPExternalLoader : MonoBehaviour
 
         // Read the .txt file
         string[] lines = File.ReadAllLines(txtPath);
+        if(animationListAsset_TXT == null)
+        {
+            animationListAsset_TXT = ScriptableObject.CreateInstance<AnimationListAsset_TXT>();
+        }
+        if(animationListAsset_TXT.animationAssetGroups == null)
+        {
+            animationListAsset_TXT.animationAssetGroups = new List<AnimationAssetGroup_TXT>();
+        }
         animationListAsset_TXT.animationAssetGroups.Clear();
 
         foreach (string line in lines)

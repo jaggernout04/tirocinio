@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91474a725a1cc4796877760f295c9ba7, type: 3}
-  m_Name: ALA_LoadingList
+  m_Script: {fileID: 11500000, guid: 6f123a0ee64faa387973babfeb8d8b03, type: 3}
+  m_Name: AnimationListAsset_TXT_SO
   m_EditorClassIdentifier: 
   playbackSettings: {fileID: 11400000, guid: 4b81560bdf21baf45b8d2acad6f33a35, type: 2}
   models: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
-  animationAssetGroups:
-  - assets:
-    - {fileID: 0}
+  animationAssetGroups: []

@@ -721,7 +721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10c0da017ae45509bbcef9bc2e901235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  externalFolderPath: C:\ExternalAnimations\
+  externalFolderPath: /home/jaggernout04/Documents/repos/tirocinio/JsonConversionScripts/BatchOutputFolder
   manifestFileName: animations.txt
   animationListAsset_TXT: {fileID: 0}
 --- !u!114 &1394645763
@@ -737,7 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileLoader: {fileID: 1394645762}
-  smplModels: {fileID: 0}
+  smplModels: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
 --- !u!4 &1394645764
 Transform:
   m_ObjectHideFlags: 0

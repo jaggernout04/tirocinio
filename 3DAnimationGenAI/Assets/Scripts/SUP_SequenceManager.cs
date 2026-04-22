@@ -7,18 +7,23 @@ public class SUPSequenceManager : MonoBehaviour
 {
     [Header("References")]
     public SUPExternalLoader fileLoader;
-    public Models smplModels; 
+    public Models smplModels = default; 
 
     [Header("Output")]
     public List<List<AMASSAnimation>> loadedAnimations;
 
+
+    void Start()
+    {
+        StartSequence();
+    }
     [ContextMenu("Start Sequence")]
     public void StartSequence()
     {
         // 1. Fill the ScriptableObject with strings using your existing code
         fileLoader.LoadExternalAnimations(); 
 
-        // 2. Pass those strings to the SUPLoader_txt to be parsed into AMASSAnimations
+        // 2. Pass those strings to the SUPLoader_TXT to be parsed into AMASSAnimations
         // We use the SO that your loader just finished populating
         var asset = fileLoader.animationListAsset_TXT;
 
