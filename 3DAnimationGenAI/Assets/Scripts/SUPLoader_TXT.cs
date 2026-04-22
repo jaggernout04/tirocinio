@@ -144,34 +144,27 @@ namespace Playback {
             }
             
             return animations;
-            
-            
-            
-            
         }
     }
-    // --- FINAL STRATEGY ---
+
+    // Support class for loading from raw JSON strings
     public class LoadAnimationFromRawJson : AnimationLoadStrategy {
         
         readonly AnimationJsonParser jsonParser;
 
         public LoadAnimationFromRawJson(string jsonString, Models models) : base(models) {
-            // We use your existing parser logic
             jsonParser = new AnimationJsonParser(jsonString);
         }
         
         protected override async Task<AnimationData> LoadDataWithStrategy() {
-            // Simply call your existing async load
             return await jsonParser.LoadDataAsync();
         }
 
         protected override bool IsMatchingModel(ModelDefinition model) {
-            // Use your existing matching logic
             return jsonParser.IsMatchingModel(model);
         }
 
         protected override void FormatData() {
-            // Use your existing Maya-to-Unity formatting logic
             jsonParser.FormatData();
         }
     }

@@ -63,13 +63,13 @@ public class SMPLJointCalculator {
 		if (jntsRegr_JSON == null)
         {
 			throw new System.ArgumentNullException("ERROR: no joint regressor JSON file provided");
-            return false;
+            //return false;
         }   
 
 		if (! _initRegressorMatrix(ref _template, ref _jntsRegr, ref jntsRegr_JSON))
         {
 			throw new System.ArgumentNullException("ERROR: Could not create joint regressor matrix");
-            return false;
+            //return false;
         }
         Debug.Log("Joint regressor matrix initialized.");
         _initialized = true;

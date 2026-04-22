@@ -12,10 +12,6 @@ public class SUPExternalLoader : MonoBehaviour
     public string manifestFileName = "animations.txt";
     public AnimationListAsset_TXT animationListAsset_TXT;
 
-    void Start()
-    {
-        LoadExternalAnimations();
-    }
 
     [ContextMenu("Load Animations")]
     public void LoadExternalAnimations()
