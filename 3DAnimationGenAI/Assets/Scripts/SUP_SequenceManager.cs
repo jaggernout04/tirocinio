@@ -13,6 +13,8 @@ public class SUPSequenceManager : MonoBehaviour
     public SUPExternalLoader fileLoader;
     public Models smplModels = default; 
     public PlaybackSettings playbackSettings = default;
+    public BodySettings bodySettings = default;
+    public DisplaySettings displaySettings = default;
 
     [Header("Configuration")]
     [Tooltip("The folder on your PC where the JSONs are stored.")]
@@ -20,11 +22,28 @@ public class SUPSequenceManager : MonoBehaviour
     [Tooltip("The .txt file listing the animation names.")]
     public string manifestFileName = "animations.txt";
     public AnimationListAsset_TXT animationListAsset_TXT;
+    public Transform animationOrigin;
 
     [Header("Output")]
-    public List<List<AMASSAnimation>> loadedAnimations = new List<List<AMASSAnimation>>();
+    public List<List<AMASSAnimation>> loadedAnimations;
 
+    private SUPPlayer SUPAnimPlayer;
+    private bool hasFinishedLoading = false;
 
+    void OnEnable()
+    {
+        if(animationOrigin == null) {
+            SUPAnimPlayer = new SUPPlayer(playbackSettings, displaySettings, bodySettings);
+        }
+        else {
+            SUPAnimPlayer = new SUPPlayer(playbackSettings, displaySettings, bodySettings, animationOrigin);
+        }
+        if(fileLoader == null) {
+
+            fileLoader = new SUPExternalLoader(externalFolderPath, manifestFileName, animationListAsset_TXT);
+        }
+        loadedAnimations = new List<List<AMASSAnimation>>();
+    }
     void Start()
     {
         //CustomLoading();
@@ -33,10 +52,7 @@ public class SUPSequenceManager : MonoBehaviour
     [ContextMenu("Start Sequence")]
     public void CustomLoading()
     {
-        if(fileLoader == null) {
 
-            fileLoader = new SUPExternalLoader(externalFolderPath, manifestFileName, animationListAsset_TXT);
-        }
         // 1. Fill the ScriptableObject with strings using your existing code
         fileLoader.LoadExternalAnimations(); 
 
@@ -47,27 +63,52 @@ public class SUPSequenceManager : MonoBehaviour
         SUPLoader_TXT.LoadFromListAssetAsync(asset, smplModels, asset.PlaybackSettings, (results) => {
             loadedAnimations = results;
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
-            
-            // You can now call your playback function here, e.g.:
-            // PlayAnimation(results[0][0]); 
+            hasFinishedLoading = true;
+            PlayAnimation(loadedAnimations);
         });
     }
 
     public void SUPLoading(bool useListTXT = false) {
-    AnimationFileReference fileRef;
-    if (useListTXT)
-    {
-        fileRef = new AnimationFileReference(Path.Combine(externalFolderPath), Path.Combine(externalFolderPath, manifestFileName));
-    }
-    else
-    {
-        fileRef = new AnimationFileReference(Path.Combine(externalFolderPath));
+        AnimationFileReference fileRef;
+        if (useListTXT)
+        {
+            fileRef = new AnimationFileReference(Path.Combine(externalFolderPath), Path.Combine(externalFolderPath, manifestFileName));
+        }
+        else
+        {
+            fileRef = new AnimationFileReference(Path.Combine(externalFolderPath));
+        }
+
+        // SUPLoader built-in function to load external files
+        SUPLoader.LoadAsync(fileRef, smplModels, playbackSettings, (results) => {
+            Debug.Log("Loaded using SUPLoader built-in function");
+            Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
+            loadedAnimations = results;
+            hasFinishedLoading = true;
+            PlayAnimation(loadedAnimations);
+        });
     }
 
-    // SUPLoader built-in function to load external files
-    SUPLoader.LoadAsync(fileRef, smplModels, playbackSettings, (results) => {
-        Debug.Log("Loaded using SUPLoader built-in function");
-        loadedAnimations = results;
-    });
-}
+    public void PlayAnimation(List<List<AMASSAnimation>> loadedAnimations, int animIndex = -1)
+    {
+        if (loadedAnimations == null || loadedAnimations.Count == 0)
+        {
+            Debug.LogWarning("No animations loaded to play.");
+            return;
+        }
+
+        if(animIndex >= 0)
+        {
+            SUPAnimPlayer.Play(loadedAnimations[animIndex]);
+            Debug.Log($"Playing animation: {loadedAnimations[animIndex][0]}");
+            return;
+        }
+        int currentPlayingIndex = 0;
+        while(currentPlayingIndex < loadedAnimations.Count)
+        {
+            SUPAnimPlayer.Play(loadedAnimations[currentPlayingIndex]);
+            Debug.Log($"Playing animation: {loadedAnimations[currentPlayingIndex][0]}");
+            currentPlayingIndex++;
+        }
+    }
 }
