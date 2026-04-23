@@ -16,10 +16,11 @@ public class SUPExternalLoader
         externalFolderPath = folderPath;
         manifestFileName = manifestName;
         animationListAsset_TXT = asset;
-        
     }
 
-    [ContextMenu("Load Animations")]
+    /// <summary>
+    /// Load SMPLH json animations by manually scraping the folder 
+    /// </summary>
     public void LoadExternalAnimations()
     {
         string txtPath = Path.Combine(externalFolderPath, manifestFileName);
@@ -34,6 +35,7 @@ public class SUPExternalLoader
         string[] lines = File.ReadAllLines(txtPath);
         animationListAsset_TXT.animationAssetGroups.Clear();
 
+        // Iterate each line, split by spaces, and read the corresponding JSON files
         foreach (string line in lines)
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
@@ -65,6 +67,4 @@ public class SUPExternalLoader
 
         Debug.Log($"Successfully loaded {animationListAsset_TXT.animationAssetGroups.Count} groups from external storage.");
     }
-
-    
 }

@@ -23,8 +23,9 @@ public class SUPSequenceManager : MonoBehaviour
     public string externalFolderPath = @"C:\ExternalAnimations\";
     [Tooltip("The .txt file listing the animation names.")]
     public string manifestFileName = "animations.txt";
-    public AnimationListAsset_TXT animationListAsset_TXT;
+    public AnimationListAsset_TXT animationListAsset_TXT = default;
     public Transform animationOrigin;
+    public bool useCustomLoading = false; // Set to true to use the custom loading method instead of SUPLoader's built-in function  
 
     [Header("Output")]
     public List<List<AMASSAnimation>> loadedAnimations;
@@ -32,9 +33,12 @@ public class SUPSequenceManager : MonoBehaviour
     private SUPPlayer SUPAnimPlayer;
 
     // --- EVENTS ---
-    public static event Action<List<List<AMASSAnimation>>, int> OnLoadingFinished;
+    public static event Action OnLoadingFinished;
     public UnityEvent OnLoadingFinishedEvent;
 
+    //----------------------------------------
+    //--------- UNITY LIFECYCLE --------------
+    //----------------------------------------
     void OnEnable()
     {
         if(animationOrigin == null) {
@@ -43,39 +47,63 @@ public class SUPSequenceManager : MonoBehaviour
         else {
             SUPAnimPlayer = new SUPPlayer(playbackSettings, displaySettings, bodySettings, animationOrigin);
         }
-        if(fileLoader == null) {
-            
+        if(fileLoader == null) {    
             fileLoader = new SUPExternalLoader(externalFolderPath, manifestFileName, animationListAsset_TXT);
         }
         loadedAnimations = new List<List<AMASSAnimation>>();
-        SUPSequenceManager.OnLoadingFinished += PlayAnimation;
+        SUPSequenceManager.OnLoadingFinished += LoadingFinished;
     }
+        private void OnDisable()
+    {
+        SUPSequenceManager.OnLoadingFinished -= LoadingFinished;
+    }
+
     void Start()
     {
-        //CustomLoading();
-        SUPLoading(true);
+        switch (useCustomLoading)
+        {
+            case true:
+                CustomLoading();
+                break;
+            case false:
+                SUPLoading(true);
+                break;
+        }
+    }
 
+    //-----------------------------------------------
+    //-------- Event handlers and Callbacks ---------
+    //-----------------------------------------------
+    private void LoadingFinished()
+    {
         PlayAnimation(loadedAnimations);
     }
-    [ContextMenu("Start Sequence")]
+
+
+
+    //----------------------------------------------
+    //------------Core Functions--------------------
+    //----------------------------------------------
+
+    /// <summary>
+    /// Load SMPLH animations with custom method
+    /// </summary>
     public void CustomLoading()
     {
-
-        // 1. Fill the ScriptableObject with strings using your existing code
         fileLoader.LoadExternalAnimations(); 
 
-        // 2. Pass those strings to the SUPLoader_TXT to be parsed into AMASSAnimations
-        // We use the SO that your loader just finished populating
-        var asset = fileLoader.animationListAsset_TXT;
-
-        SUPLoader_TXT.LoadFromListAssetAsync(asset, smplModels, asset.PlaybackSettings, (results) => {
+        SUPLoader_TXT.LoadFromListAssetAsync(animationListAsset_TXT, smplModels, animationListAsset_TXT.PlaybackSettings, (results) => {
             loadedAnimations = results;
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
-            OnLoadingFinished?.Invoke(loadedAnimations, -1); // -1 indicates all animations
+            OnLoadingFinished?.Invoke(); // -1 indicates all animations
             OnLoadingFinishedEvent?.Invoke();     
         });
     }
 
+    /// <summary>
+    /// Loads the SMPLH animations using the SUPLoader
+    /// </summary>
+    /// <param name="useListTXT">Set to true to use a load order using the manifest filec</param>
     public void SUPLoading(bool useListTXT = false) {
         AnimationFileReference fileRef;
         if (useListTXT)
@@ -92,10 +120,12 @@ public class SUPSequenceManager : MonoBehaviour
             Debug.Log("Loaded using SUPLoader built-in function");
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
             loadedAnimations = results;
-            OnLoadingFinished?.Invoke(loadedAnimations, -1); // -1 indicates all animations
+            OnLoadingFinished?.Invoke(); // -1 indicates all animations
             OnLoadingFinishedEvent?.Invoke(); 
         });
     }
+
+
 
     /// <summary>
     /// Plays the SMPLH animations using the SUPPlayer.
