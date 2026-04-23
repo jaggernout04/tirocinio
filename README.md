@@ -4,7 +4,8 @@ This project aims to create a easy-to-use GUI Based solution to generate 3D anim
 
 ## Description
 
-Using SMPLH animations from the AMASS database
+This project is based on SMPLH animations from the AMASS database, and a text description of such from the HumanML3D Dataset, it using the bmlSUP .npz to .json converter to 
+translate the animation in a readable format. Than those are loaded by giving the script a .txt file to indicate which animation to load.
 
 ## Getting Started
 
