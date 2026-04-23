@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using Playback;
 using SMPLModel;
 using Settings;
@@ -28,7 +30,10 @@ public class SUPSequenceManager : MonoBehaviour
     public List<List<AMASSAnimation>> loadedAnimations;
 
     private SUPPlayer SUPAnimPlayer;
-    private bool hasFinishedLoading = false;
+
+    // --- EVENTS ---
+    public static event Action<List<List<AMASSAnimation>>, int> OnLoadingFinished;
+    public UnityEvent OnLoadingFinishedEvent;
 
     void OnEnable()
     {
@@ -39,15 +44,18 @@ public class SUPSequenceManager : MonoBehaviour
             SUPAnimPlayer = new SUPPlayer(playbackSettings, displaySettings, bodySettings, animationOrigin);
         }
         if(fileLoader == null) {
-
+            
             fileLoader = new SUPExternalLoader(externalFolderPath, manifestFileName, animationListAsset_TXT);
         }
         loadedAnimations = new List<List<AMASSAnimation>>();
+        SUPSequenceManager.OnLoadingFinished += PlayAnimation;
     }
     void Start()
     {
         //CustomLoading();
         SUPLoading(true);
+
+        PlayAnimation(loadedAnimations);
     }
     [ContextMenu("Start Sequence")]
     public void CustomLoading()
@@ -63,8 +71,8 @@ public class SUPSequenceManager : MonoBehaviour
         SUPLoader_TXT.LoadFromListAssetAsync(asset, smplModels, asset.PlaybackSettings, (results) => {
             loadedAnimations = results;
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
-            hasFinishedLoading = true;
-            PlayAnimation(loadedAnimations);
+            OnLoadingFinished?.Invoke(loadedAnimations, -1); // -1 indicates all animations
+            OnLoadingFinishedEvent?.Invoke();     
         });
     }
 
@@ -84,11 +92,15 @@ public class SUPSequenceManager : MonoBehaviour
             Debug.Log("Loaded using SUPLoader built-in function");
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
             loadedAnimations = results;
-            hasFinishedLoading = true;
-            PlayAnimation(loadedAnimations);
+            OnLoadingFinished?.Invoke(loadedAnimations, -1); // -1 indicates all animations
+            OnLoadingFinishedEvent?.Invoke(); 
         });
     }
 
+    /// <summary>
+    /// Plays the SMPLH animations using the SUPPlayer.
+    /// </summary>
+    /// <param name="animIndex">Optional index to specify which animation group to play. If -1, all animations will be played in sequence.</param>
     public void PlayAnimation(List<List<AMASSAnimation>> loadedAnimations, int animIndex = -1)
     {
         if (loadedAnimations == null || loadedAnimations.Count == 0)
