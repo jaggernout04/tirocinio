@@ -409,6 +409,10 @@ PrefabInstance:
       propertyPath: animationOrigin
       value: 
       objectReference: {fileID: 1282712419}
+    - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
+      propertyPath: useCustomLoading
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
