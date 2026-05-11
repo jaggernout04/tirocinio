@@ -1,2 +1,1 @@
-A1-Stand_poses.json
-A1-Stand_poses_2.json
+A1-Stand_poses.json crawl_backwards_poses.json forward_poses.json
