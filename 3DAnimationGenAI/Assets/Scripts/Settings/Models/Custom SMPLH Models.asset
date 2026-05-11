@@ -23,8 +23,8 @@ MonoBehaviour:
     Translations: trans
     Poses: poses
     Betas: betas
-  MaleCharacterPrefab: {fileID: 2026968884750741835, guid: a5786edf45e76799bb59bf0f181e3978, type: 3}
-  FemaleCharacterPrefab: {fileID: 5294038998813854057, guid: 8f90522fd52c4f8c3b309dc951a4ff67, type: 3}
+  MaleCharacterPrefab: {fileID: 5294038998813854057, guid: 8f90522fd52c4f8c3b309dc951a4ff67, type: 3}
+  FemaleCharacterPrefab: {fileID: 2026968884750741835, guid: a5786edf45e76799bb59bf0f181e3978, type: 3}
   RotateToUnityCoords: 0
   PelvisIndex: 0
   firstPoseIsPelvisTranslation: 1

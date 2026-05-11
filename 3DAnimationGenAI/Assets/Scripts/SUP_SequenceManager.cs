@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -23,18 +24,25 @@ public class SUPSequenceManager : MonoBehaviour
     public string externalFolderPath = @"C:\ExternalAnimations\";
     [Tooltip("The .txt file listing the animation names.")]
     public string manifestFileName = "animations.txt";
-    public AnimationListAsset_TXT animationListAsset_TXT = default;
-    public Transform animationOrigin;
+    public AnimationListAsset_External animationListAsset_External = default;
     public bool useCustomLoading = false; // Set to true to use the custom loading method instead of SUPLoader's built-in function  
+    
+    // --- ANIMATION SETTINGS ---
+    [Header("Animation Settings")]
+    public Transform animationOrigin;
+    public bool spawnAnimationSeperated = false; // If true, each animation will be spawned at a different position and in sequence. If false, all animations will be spawned at the same position.
+    private SUPPlayer_Custom SUPAnimPlayer;
 
-    [Header("Output")]
+    // --- OUTPUT ---
     public List<List<AMASSAnimation>> loadedAnimations;
 
-    private SUPPlayer SUPAnimPlayer;
+ 
 
     // --- EVENTS ---
     public static event Action OnLoadingFinished;
     public UnityEvent OnLoadingFinishedEvent;
+    
+
 
     //----------------------------------------
     //--------- UNITY LIFECYCLE --------------
@@ -42,13 +50,13 @@ public class SUPSequenceManager : MonoBehaviour
     void OnEnable()
     {
         if(animationOrigin == null) {
-            SUPAnimPlayer = new SUPPlayer(playbackSettings, displaySettings, bodySettings);
+            SUPAnimPlayer = new SUPPlayer_Custom(playbackSettings, displaySettings, bodySettings, this);
         }
         else {
-            SUPAnimPlayer = new SUPPlayer(playbackSettings, displaySettings, bodySettings, animationOrigin);
+            SUPAnimPlayer = new SUPPlayer_Custom(playbackSettings, displaySettings, bodySettings, this, animationOrigin);
         }
         if(fileLoader == null) {    
-            fileLoader = new SUPExternalLoader(externalFolderPath, manifestFileName, animationListAsset_TXT);
+            fileLoader = new SUPExternalLoader(externalFolderPath, manifestFileName, animationListAsset_External);
         }
         loadedAnimations = new List<List<AMASSAnimation>>();
         SUPSequenceManager.OnLoadingFinished += LoadingFinished;
@@ -92,7 +100,7 @@ public class SUPSequenceManager : MonoBehaviour
     {
         fileLoader.LoadExternalAnimations(); 
 
-        SUPLoader_TXT.LoadFromListAssetAsync(animationListAsset_TXT, smplModels, animationListAsset_TXT.PlaybackSettings, (results) => {
+        SUPLoader_External.LoadFromListAssetAsync(animationListAsset_External, smplModels, animationListAsset_External.PlaybackSettings, (results) => {
             loadedAnimations = results;
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
             OnLoadingFinished?.Invoke(); // -1 indicates all animations
@@ -116,7 +124,7 @@ public class SUPSequenceManager : MonoBehaviour
         }
 
         // SUPLoader built-in function to load external files
-        SUPLoader.LoadAsync(fileRef, smplModels, playbackSettings, (results) => {
+        SUPLoader_External.LoadAsync(fileRef, smplModels, playbackSettings, (results) => {
             Debug.Log("Loaded using SUPLoader built-in function");
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
             loadedAnimations = results;
@@ -128,7 +136,7 @@ public class SUPSequenceManager : MonoBehaviour
 
 
     /// <summary>
-    /// Plays the SMPLH animations using the SUPPlayer.
+    /// Plays the SMPLH animations using the SUPPlayer_Custom.
     /// </summary>
     /// <param name="animIndex">Optional index to specify which animation group to play. If -1, all animations will be played in sequence.</param>
     public void PlayAnimation(List<List<AMASSAnimation>> loadedAnimations, int animIndex = -1)
@@ -139,6 +147,13 @@ public class SUPSequenceManager : MonoBehaviour
             return;
         }
 
+        if(spawnAnimationSeperated)
+        {
+            Debug.Log($"Playing all animations independently.");
+            SUPAnimPlayer.PlaySequence(loadedAnimations);
+            return;
+        }
+        
         if(animIndex >= 0)
         {
             SUPAnimPlayer.Play(loadedAnimations[animIndex]);

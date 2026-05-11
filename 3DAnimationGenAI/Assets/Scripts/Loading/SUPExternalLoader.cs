@@ -9,13 +9,13 @@ public class SUPExternalLoader
     public string externalFolderPath = @"C:\ExternalAnimations\";
     [Tooltip("The .txt file listing the animation names.")]
     public string manifestFileName = "animations.txt";
-    public AnimationListAsset_TXT animationListAsset_TXT;
+    public AnimationListAsset_External animationListAsset_External;
 
     // Custructor to use in case of non-MonoBehaviour usage
-    public SUPExternalLoader(string folderPath, string manifestName, AnimationListAsset_TXT asset) {
+    public SUPExternalLoader(string folderPath, string manifestName, AnimationListAsset_External asset) {
         externalFolderPath = folderPath;
         manifestFileName = manifestName;
-        animationListAsset_TXT = asset;
+        animationListAsset_External = asset;
     }
 
     /// <summary>
@@ -33,14 +33,14 @@ public class SUPExternalLoader
 
         // Read the .txt file
         string[] lines = File.ReadAllLines(txtPath);
-        animationListAsset_TXT.animationAssetGroups.Clear();
+        animationListAsset_External.animationAssetGroups.Clear();
 
         // Iterate each line, split by spaces, and read the corresponding JSON files
         foreach (string line in lines)
         {
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            AnimationAssetGroup_TXT group = new AnimationAssetGroup_TXT();
+            AnimationAssetGroup_External group = new AnimationAssetGroup_External();
             string[] fileNames = line.Trim().Split(' ');
 
             foreach (string fileName in fileNames)
@@ -61,10 +61,10 @@ public class SUPExternalLoader
 
             if (group.jsonEntries.Count > 0)
             {
-                animationListAsset_TXT.animationAssetGroups.Add(group);
+                animationListAsset_External.animationAssetGroups.Add(group);
             }
         }
 
-        Debug.Log($"Successfully loaded {animationListAsset_TXT.animationAssetGroups.Count} groups from external storage.");
+        Debug.Log($"Successfully loaded {animationListAsset_External.animationAssetGroups.Count} groups from external storage.");
     }
 }

@@ -10,7 +10,7 @@ using SMPLModel;
 using UnityEngine;
 
 namespace Playback {
-    public static class SUPLoader_TXT {
+    public static class SUPLoader_External {
 
         public static async void LoadAsync(AnimationFileReference animationsFileReference, Models models, PlaybackSettings playbackSettings, Action<List<List<AMASSAnimation>>> doneAction) {
            
@@ -24,14 +24,14 @@ namespace Playback {
         }
         
         [PublicAPI]
-        public static void LoadFromListAssetAsync(AnimationListAsset_TXT asset, Action<List<List<AMASSAnimation>>> doneLoading) {
+        public static void LoadFromListAssetAsync(AnimationListAsset_External asset, Action<List<List<AMASSAnimation>>> doneLoading) {
                     LoadFromListAssetAsync(asset, asset.Models, asset.PlaybackSettings, doneLoading);
         }
 
-        public static async void LoadFromListAssetAsync(AnimationListAsset_TXT asset, Models models, PlaybackSettings playbackSettings, Action<List<List<AMASSAnimation>>> doneLoading) {
+        public static async void LoadFromListAssetAsync(AnimationListAsset_External asset, Models models, PlaybackSettings playbackSettings, Action<List<List<AMASSAnimation>>> doneLoading) {
             List<List<AMASSAnimation>> loadedSamples = new List<List<AMASSAnimation>>();
 
-            foreach (AnimationAssetGroup_TXT sampleGroup in asset.animationAssetGroups) {
+            foreach (AnimationAssetGroup_External sampleGroup in asset.animationAssetGroups) {
                 List<AMASSAnimation> animationsInThisGroup = new List<AMASSAnimation>();
 
                 foreach (string jsonContent in sampleGroup.jsonEntries) {

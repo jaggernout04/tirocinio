@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayBackwards: 0
   FallbackFPS: 60
-  Loop: 1
-  OffsetMultipleAnimations: 0
-  OffSetSpacing: {x: 0, y: 0, z: 0}
+  Loop: 0
+  OffsetMultipleAnimations: 1
+  OffSetSpacing: {x: 2, y: 0, z: 0}
   PlaybackImmediately: 1
