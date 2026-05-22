@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: Custom SMPL Model
   m_EditorClassIdentifier: 
   modelName: SMPL
-  blendShapeScalingFactor: 5
   bodyShapeBetaCount: 10
   jointCount: 24
-  poseDependentBlendshapeCount: 207
   jsonKeys:
     Gender: gender
     Male: male
@@ -25,7 +23,13 @@ MonoBehaviour:
     Translations: trans
     Poses: poses
     Betas: betas
-  CharacterPrefab: {fileID: 1422993857495300, guid: a833c934eda954cb68ede3ef16f14025, type: 3}
-  MaleMeshPrefab: {fileID: -6776866857465904403, guid: 7101835e7cddc9c4b96ba9039b9228ff, type: 3}
-  FemaleMeshPrefab: {fileID: 3226173293770572294, guid: 81d5aef25ec81274f93605c5b6a6afa0, type: 3}
+  MaleCharacterPrefab: {fileID: 5294038998813854057, guid: 8f90522fd52c4f8c3b309dc951a4ff67, type: 3}
+  FemaleCharacterPrefab: {fileID: 2026968884750741835, guid: a5786edf45e76799bb59bf0f181e3978, type: 3}
+  RotateToUnityCoords: 0
   PelvisIndex: 1
+  firstPoseIsPelvisTranslation: 0
+  MaleRegressorFile: {fileID: 0}
+  FemaleRegressorFile: {fileID: 0}
+  unityBlendShapeScaleFactor: 100
+  poseBlendShapeScalingFactor: 1
+  shapeBlendShapeScalingFactor: 1
