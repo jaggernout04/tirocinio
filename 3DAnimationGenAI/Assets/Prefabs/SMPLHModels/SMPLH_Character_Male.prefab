@@ -1330,10 +1330,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4bef531201814b14a2ab676b4f1769a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 11400000, guid: 914a54cb7fbcabe41a0ee32110e356c8, type: 2}
+  model: {fileID: 11400000, guid: 0d7f7507a310b9965b4328343afaaee6, type: 2}
   gender: 0
-  bodySettings: {fileID: 11400000, guid: fedfe4bc52c3f834f9eefa1222f36e43, type: 2}
-  displaySetings: {fileID: 11400000, guid: 0e4d1afa9676df64b89b6b93e5ce0fbb, type: 2}
+  bodySettings: {fileID: 11400000, guid: 3e08e3f069394605eab0c6c494ce9eec, type: 2}
+  displaySetings: {fileID: 11400000, guid: a2543d954cf786d7b9e145648a42549a, type: 2}
   meshCorrection:
     OffsetErrorBetweenPelvisAndZero: {x: 0.00217, y: 0.972724, z: 0.028858}
     OffsetErrorInFbxBetweenRigAndMesh: {x: 0.00217, y: -0.240791, z: 0.028858}

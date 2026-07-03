@@ -27,19 +27,19 @@ Preset:
   - target: {fileID: 0}
     propertyPath: smplModels
     value: 
-    objectReference: {fileID: 11400000, guid: 2313800435c61b84ea16a728169d71c1, type: 2}
+    objectReference: {fileID: 11400000, guid: cdf8324238b0b792cb8ea8c100a8b3ef, type: 2}
   - target: {fileID: 0}
     propertyPath: playbackSettings
     value: 
-    objectReference: {fileID: 11400000, guid: 4b81560bdf21baf45b8d2acad6f33a35, type: 2}
+    objectReference: {fileID: 11400000, guid: 1a5008bb20c038b8eb1462ba730d72c0, type: 2}
   - target: {fileID: 0}
     propertyPath: bodySettings
     value: 
-    objectReference: {fileID: 11400000, guid: fedfe4bc52c3f834f9eefa1222f36e43, type: 2}
+    objectReference: {fileID: 11400000, guid: 3e08e3f069394605eab0c6c494ce9eec, type: 2}
   - target: {fileID: 0}
     propertyPath: displaySettings
     value: 
-    objectReference: {fileID: 11400000, guid: 0e4d1afa9676df64b89b6b93e5ce0fbb, type: 2}
+    objectReference: {fileID: 11400000, guid: a2543d954cf786d7b9e145648a42549a, type: 2}
   - target: {fileID: 0}
     propertyPath: externalFolderPath
     value: /home/jaggernout04/Documents/repos/tirocinio/JsonConversionScripts/BatchOutputFolder
@@ -49,11 +49,23 @@ Preset:
     value: animations.txt
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: animationListAsset_TXT
+    propertyPath: animationListAsset_External
     value: 
-    objectReference: {fileID: 11400000, guid: cb6711dab4d284b78b189d749f1135b0, type: 2}
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: useCustomLoading
+    value: 0
+    objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: animationOrigin
     value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: spawnAnimationSeperated
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: OnLoadingFinishedEvent.m_PersistentCalls.m_Calls.Array.size
+    value: 0
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

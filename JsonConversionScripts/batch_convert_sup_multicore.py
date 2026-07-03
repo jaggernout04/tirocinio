@@ -7,8 +7,9 @@ from AmassData import AMASSDataConverter
 # --- CONFIGURATION ---
 INPUT_ROOT = './BatchInputFolder'
 OUTPUT_ROOT = './BatchOutputFolder'
-# Leave 1 core free so your OS and mouse don't lag
-MAX_WORKERS = max(1, os.cpu_count() - 1) 
+
+# Fallback to default behavior if run normally, override if benchmark script is running
+MAX_WORKERS = int(os.environ.get("BENCHMARK_MAX_WORKERS", max(1, os.cpu_count() - 1)))
 
 def convert_single_file(file_info):
     """Worker function to process one file."""

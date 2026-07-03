@@ -1,0 +1,6 @@
+{
+    "single_core_seconds": 505.11249688199314,
+    "multi_core_seconds": 67.86383008300618,
+    "speedup": 7.4430296118591555,
+    "cpu_count": 16
+}

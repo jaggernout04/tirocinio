@@ -56,5 +56,8 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "3DAnimationGenAI.sln"
+    "dotnet.defaultSolution": "3DAnimationGenAI.sln",
+    "files.associations": {
+        "plyconfig.json": "jsonc"
+    }
 }

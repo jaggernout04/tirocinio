@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Custom Models
   m_EditorClassIdentifier: 
   ModelDefinitions:
-  - {fileID: 11400000, guid: b63e2f1c78483004c8ad9bf3aa0ddaae, type: 2}
   - {fileID: 11400000, guid: 0d7f7507a310b9965b4328343afaaee6, type: 2}
+  - {fileID: 11400000, guid: b63e2f1c78483004c8ad9bf3aa0ddaae, type: 2}

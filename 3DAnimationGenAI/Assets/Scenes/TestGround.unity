@@ -415,7 +415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: externalFolderPath
-      value: /home/jaggernout04/Documents/AIST++Dataset/converted_jsons
+      value: /home/jaggernout04/Documents/repos/smplx/output_json
       objectReference: {fileID: 0}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: spawnAnimationSeperated
