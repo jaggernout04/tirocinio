@@ -1,8 +1,0 @@
-Configuration,Avg_Time_Sec,Min_Time_Sec,Speedup,Efficiency_Pct
-Sequential,507.442,497.4621,1.0,-
-Multicore (2),255.2028,245.8447,1.99,99.4
-Multicore (4),133.0745,129.2463,3.81,95.3
-Multicore (8),148.793,135.295,3.41,42.6
-Multicore (12),157.3573,133.1994,3.22,26.9
-Multicore (15),208.2517,190.0428,2.44,16.2
-Multicore (16),198.946,175.9843,2.55,15.9

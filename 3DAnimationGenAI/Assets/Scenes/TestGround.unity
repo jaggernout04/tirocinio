@@ -317,8 +317,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 20, y: 5, z: 5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -410,12 +410,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1282712419}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
+      propertyPath: manifestFileName
+      value: animations.txt
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: useCustomLoading
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: externalFolderPath
-      value: /home/jaggernout04/Documents/repos/smplx/output_json
+      value: /yourdirectory
       objectReference: {fileID: 0}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: spawnAnimationSeperated
@@ -441,6 +445,8 @@ GameObject:
   - component: {fileID: 2130225476}
   - component: {fileID: 2130225475}
   - component: {fileID: 2130225474}
+  - component: {fileID: 2130225477}
+  - component: {fileID: 2130225478}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -516,12 +522,40 @@ Transform:
   m_GameObject: {fileID: 2130225473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9912449, z: -0.13203661, w: 0}
-  m_LocalPosition: {x: 0, y: 3.49, z: 10}
+  m_LocalPosition: {x: 0, y: 3.17, z: 8.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 15.175, y: 180, z: 0}
+--- !u!114 &2130225477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130225473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5516bb9def215259692e35a37a274ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sensitivity: 5
+  slowSpeed: 5
+  normalSpeed: 5
+  sprintSpeed: 10
+--- !u!114 &2130225478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130225473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4734cf209cc0c4332a6d485554e0399f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
