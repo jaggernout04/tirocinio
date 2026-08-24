@@ -13,20 +13,25 @@ using FileLoaders;
 public class SUPSequenceManager : MonoBehaviour
 {
     [Header("References")]
-    public SUPExternalLoader fileLoader;
+    public SUPCustomLoader fileLoader;
     public Models smplModels = default; 
     public PlaybackSettings playbackSettings = default;
     public BodySettings bodySettings = default;
     public DisplaySettings displaySettings = default;
 
-    [Header("Configuration")]
+    // --- LOADING SETTINGS ---
+    [Header("Loading Settings")]
     [Tooltip("The folder on your PC where the JSONs are stored.")]
-    public string externalFolderPath = @"C:\ExternalAnimations\";
+    public string externalFolderPath = @"/yourdirectory";
     [Tooltip("The .txt file listing the animation names.")]
     public string manifestFileName = "animations.txt";
+    // This one can either be set to a preloaded AnimationListAsset_External or automatically created with the settings in SUPSequenceManager. I
     public AnimationListAsset_External animationListAsset_External = default;
     public bool useCustomLoading = false; // Set to true to use the custom loading method instead of SUPLoader's built-in function  
-    
+    [Tooltip("Only work with custom loading.")]
+    public bool useCustomTransform = false; // if true, loader expect a transform at the start of each animation inside the JSON. If false, loader will use the animationOrigin transform for all animations.
+
+
     // --- ANIMATION SETTINGS ---
     [Header("Animation Settings")]
     public Transform animationOrigin;
@@ -56,7 +61,7 @@ public class SUPSequenceManager : MonoBehaviour
             SUPAnimPlayer = new SUPPlayer_Custom(playbackSettings, displaySettings, bodySettings, this, animationOrigin);
         }
         if(fileLoader == null) {    
-            fileLoader = new SUPExternalLoader(externalFolderPath, manifestFileName, animationListAsset_External);
+            fileLoader = new SUPCustomLoader(externalFolderPath, manifestFileName, animationListAsset_External, useCustomTransform);
         }
         loadedAnimations = new List<List<AMASSAnimation>>();
         SUPSequenceManager.OnLoadingFinished += LoadingFinished;
@@ -99,7 +104,6 @@ public class SUPSequenceManager : MonoBehaviour
     public void CustomLoading()
     {
         fileLoader.LoadExternalAnimations(); 
-
         SUPLoader_External.LoadFromListAssetAsync(animationListAsset_External, smplModels, animationListAsset_External.PlaybackSettings, (results) => {
             loadedAnimations = results;
             Debug.Log($"<color=cyan>Sequence Complete!</color> {results.Count} groups parsed and ready.");
@@ -109,10 +113,11 @@ public class SUPSequenceManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Loads the SMPLH animations using the SUPLoader
+    /// Loads the SMPLH animations using the original SUPLoader
     /// </summary>
     /// <param name="useListTXT">Set to true to use a load order using the manifest filec</param>
     public void SUPLoading(bool useListTXT = false) {
+        
         AnimationFileReference fileRef;
         if (useListTXT)
         {
@@ -147,23 +152,62 @@ public class SUPSequenceManager : MonoBehaviour
             return;
         }
 
+        List<Vector3> customPositions = new List<Vector3>();
+        List<Quaternion> customRotations = new List<Quaternion>();
+        if(useCustomTransform)
+        {
+            // Extract custom positions and rotations from loaded external asset groups
+            if (animationListAsset_External != null && animationListAsset_External.animationAssetGroups != null)
+            {
+                foreach (var group in animationListAsset_External.animationAssetGroups)
+                {
+                    customPositions.Add(group.originPosition);
+                    customRotations.Add(group.originRotation);
+                }
+            }
+        }
+        // play all animations independently
         if(spawnAnimationSeperated)
         {
-            Debug.Log($"Playing all animations independently.");
-            SUPAnimPlayer.PlaySequence(loadedAnimations);
+            Debug.Log($"Playing all animations independently with custom origins.");
+            SUPAnimPlayer.PlaySequence(loadedAnimations, customPositions, customRotations, useCustomTransform);
             return;
         }
-        
-        if(animIndex >= 0)
+
+
+
+
+        // Play a specific animation group if animIndex is provided
+        if (animIndex >= 0 && animIndex < loadedAnimations.Count)
         {
-            SUPAnimPlayer.Play(loadedAnimations[animIndex]);
-            Debug.Log($"Playing animation: {loadedAnimations[animIndex][0]}");
+            Transform overrideOrigin = null;
+            if (useCustomTransform && animIndex < customPositions.Count)
+            {
+                GameObject tempAnchor = new GameObject($"Anim_{animIndex}_CustomOrigin");
+                tempAnchor.transform.position = customPositions[animIndex];
+                tempAnchor.transform.rotation = customRotations[animIndex];
+                overrideOrigin = tempAnchor.transform;
+            }
+
+            SUPAnimPlayer.Play(loadedAnimations[animIndex], overrideOrigin: overrideOrigin);
+            Debug.Log($"Playing animation at index {animIndex}: {loadedAnimations[animIndex][0]}");
             return;
         }
+
+        // Play all animations in sequence
         int currentPlayingIndex = 0;
-        while(currentPlayingIndex < loadedAnimations.Count)
+        while (currentPlayingIndex < loadedAnimations.Count)
         {
-            SUPAnimPlayer.Play(loadedAnimations[currentPlayingIndex]);
+            Transform overrideOrigin = null;
+            if (useCustomTransform && currentPlayingIndex < customPositions.Count)
+            {
+                GameObject tempAnchor = new GameObject($"Anim_{currentPlayingIndex}_CustomOrigin");
+                tempAnchor.transform.position = customPositions[currentPlayingIndex];
+                tempAnchor.transform.rotation = customRotations[currentPlayingIndex];
+                overrideOrigin = tempAnchor.transform;
+            }
+
+            SUPAnimPlayer.Play(loadedAnimations[currentPlayingIndex], overrideOrigin: overrideOrigin);
             Debug.Log($"Playing animation: {loadedAnimations[currentPlayingIndex][0]}");
             currentPlayingIndex++;
         }

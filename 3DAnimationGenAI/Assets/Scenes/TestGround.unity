@@ -415,11 +415,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: useCustomLoading
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: externalFolderPath
-      value: /yourdirectory
+      value: /home/jaggernout04/Documents/AIST++Dataset/converted_jsons
+      objectReference: {fileID: 0}
+    - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
+      propertyPath: useIndividualTransform
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9057304189703325979, guid: 29caa6eb092f49ac990ababba8962409, type: 3}
       propertyPath: spawnAnimationSeperated

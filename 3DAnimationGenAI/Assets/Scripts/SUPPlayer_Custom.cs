@@ -5,9 +5,10 @@ using Settings;
 using SMPLModel;
 using UnityEngine;
 
-namespace Playback {
-    
-    public class SUPPlayer_Custom {
+namespace Playback
+{
+    public class SUPPlayer_Custom 
+    {
         // Settings 
         readonly PlaybackSettings defaultPlaybackSettings;
         readonly DisplaySettings defaultDisplaySettings;
@@ -116,7 +117,10 @@ namespace Playback {
             }
         }
         
-        public void PlaySequence(List<List<AMASSAnimation>> fullSequence) {
+        /// <summary>
+        /// Play sequence with support for custom origins per batch group
+        /// </summary>
+        public void PlaySequence(List<List<AMASSAnimation>> fullSequence, List<Vector3> customPositions = null, List<Quaternion> customRotations = null, bool useCustomTransforms = false) {
             if(fullSequence == null || fullSequence.Count == 0) {
                 Debug.LogWarning("No animations provided in the sequence to play.");
                 return;
@@ -129,23 +133,55 @@ namespace Playback {
                 Debug.LogWarning("Looping is enabled in playback settings. Sequence will not end.");
                 return;
             }
-            for (int i = 0; i < fullSequence.Count; i++) {
-                // Launch each batch in its own independent thread/coroutine
-                coroutineRunner.StartCoroutine(BatchRoutine(fullSequence[i], i));
+
+            if(!useCustomTransforms) {
+                for (int i = 0; i < fullSequence.Count; i++) {
+                    coroutineRunner.StartCoroutine(BatchRoutine(fullSequence[i], i, null, null, false));
+                }
             }
+            else
+            {
+                // Validate custom positions and rotations
+                if(customPositions == null || customRotations == null) {
+                    Debug.LogError("Custom transforms are enabled, but custom positions or rotations are null.");
+                    return;
+                }
+                if(customPositions.Count != fullSequence.Count || customRotations.Count != fullSequence.Count) {
+                    Debug.LogError("Custom transforms are enabled, but the count of custom positions or rotations does not match the number of animation batches.");
+                    return;
+                }
+                // Start coroutines for each batch with the corresponding custom transform
+                for (int i = 0; i < fullSequence.Count; i++) {
+                    coroutineRunner.StartCoroutine(BatchRoutine(fullSequence[i], i, customPositions[i], customRotations[i], useCustomTransforms));
+                }
+            }
+
         }
-        private IEnumerator BatchRoutine(List<AMASSAnimation> batch, int batchIndex) {
+
+        private IEnumerator BatchRoutine(List<AMASSAnimation> batch, int batchIndex, Vector3? customPos, Quaternion? customRot, bool useCustomTransforms) {
             
-            // Create Anchor for this batch to keep characters organized in the scene
             GameObject anchorObj = new GameObject($"Batch_{batchIndex}_Anchor");
             Transform batchAnchor = anchorObj.transform;
             
-            Vector3 startPos = defaultOrigin != null ? defaultOrigin.position : Vector3.zero;
-            batchAnchor.position = startPos + (defaultPlaybackSettings.OffSetSpacing * batchIndex);
+            // Check if custom transforms should be applied
+            if (useCustomTransforms && customPos.HasValue) 
+            {
+                batchAnchor.position = customPos.Value;
+                if (customRot.HasValue) {
+                    batchAnchor.rotation = customRot.Value;
+                }
+                Debug.Log($"<color=cyan>Batch {batchIndex} started at custom transform: {batchAnchor.position}</color>");
+            } 
+            // Default grid spacing behavior
+            else 
+            {
+                Vector3 startPos = defaultOrigin != null ? defaultOrigin.position : Vector3.zero;
+                batchAnchor.position = startPos + (defaultPlaybackSettings.OffSetSpacing * batchIndex);
+                if (defaultOrigin != null) batchAnchor.rotation = defaultOrigin.rotation;
+                Debug.Log($"<color=cyan>Batch {batchIndex} started at offset position: {batchAnchor.position}</color>");
+            }
 
-            Debug.Log($"<color=cyan>Batch {batchIndex} started at {batchAnchor.position}</color>");
-
-            // Play all animations in the current batch
+            // Play all animations in the batch using the batch anchor transform
             foreach (AMASSAnimation anim in batch) {             
                 Play(anim, overrideOrigin: batchAnchor);
 
@@ -156,7 +192,6 @@ namespace Playback {
                 Debug.Log($"Batch {batchIndex} finished: {anim.AnimationName}");
             }
 
-            // Cleanup the anchor when this specific batch is totally done
             Object.Destroy(anchorObj);
             Debug.Log($"<color=green>Batch {batchIndex} fully complete.</color>");
         }
